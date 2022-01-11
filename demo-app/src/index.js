@@ -3,14 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Web3ReactProvider } from "@web3-react/core";
-import { getLibrary } from "./util";
+import Providers from "./Providers";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Web3ReactProvider getLibrary={getLibrary}>
+    <Providers>
       <App />
-    </Web3ReactProvider>
+    </Providers>
   </React.StrictMode>,
   document.getElementById('root')
 );
