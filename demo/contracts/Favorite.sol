@@ -8,6 +8,7 @@ contract Favorite {
     }
 
     Image[] public images;
+
     // User => ImageId => Favorite
     mapping(address => mapping(uint256 => bool)) public favorites;
 
@@ -19,10 +20,11 @@ contract Favorite {
         _;
     }
 
-    function mint(string memory uri) external {
-        Image storage image = images[images.length];
+    function mint(string calldata uri) external {
+        Image memory image;
         image.imageId = images.length;
         image.imageUri = uri;
+        images.push(image);
 
         emit Mint(image.imageId, image.imageUri);
     }
@@ -39,5 +41,9 @@ contract Favorite {
 
         favorites[msg.sender][imageId] = false;
         emit Liked(imageId, msg.sender, false);
+    }
+
+    function imagesLength() public view returns (uint256) {
+        return images.length;
     }
 }

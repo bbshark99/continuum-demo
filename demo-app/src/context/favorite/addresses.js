@@ -1,6 +1,6 @@
 const addresses = {
     favorite: {
-        4: "0x1851e7636d1C2abaf3A24426C44C449BEF6dAb4B",
+        4: "0x5b7F3cA72D8bDd06BA9F8C140318f27CDD7e514E",
     },
 };
 
