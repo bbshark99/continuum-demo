@@ -1,15 +1,13 @@
-import { useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
-
-import { useFavorite } from './context/favorite'
-import { injected } from './utils/connector'
+import { useState } from 'react';
+import { useWeb3React } from '@web3-react/core';
+import { injected } from './utils/connector';
+import Tokens from './views/Tokens';
+import Images from './views/Images';
 
 import './App.css'
 
 function App() {
-  const [value, setValue] = useState('')
-  const [loading, setLoading] = useState(false)
-  const { contract, images, loading: loadingImages } = useFavorite()
+  const [page, setPage] = useState(0);
   const { activate, deactivate, account, active } = useWeb3React()
 
   const handleConnect = () => {
@@ -18,48 +16,6 @@ function App() {
     } else {
       activate(injected)
     }
-  }
-
-  const handleChange = (e) => {
-    setValue(e.target.value)
-  }
-
-  const handleUpload = async () => {
-    if (!value) return
-
-    setLoading(true)
-    try {
-      const tx = await contract.mint(value)
-      await tx.wait()
-
-      setValue('')
-    } catch (error) {
-      console.error('TX error: ', error.message)
-    }
-
-    setLoading(false)
-  }
-
-  const handleLike = async (id) => {
-    setLoading(true)
-    try {
-      const tx = await contract.like(id)
-      await tx.wait()
-    } catch (error) {
-      console.error('LIKE ERROR: ', error.message)
-    }
-    setLoading(false)
-  }
-
-  const handleUnLike = async (id) => {
-    setLoading(true)
-    try {
-      const tx = await contract.unlike(id)
-      await tx.wait()
-    } catch (error) {
-      console.error('UNLIKE ERROR: ', error.message)
-    }
-    setLoading(false)
   }
 
   return (
@@ -73,40 +29,18 @@ function App() {
         <div className="body">
           <h5>{account}</h5>
 
-          <div className="">
-            <span>Paste the image URL:</span>
-            &nbsp;&nbsp;&nbsp;
-            <input type="text" value={value} onChange={handleChange} />
-            &nbsp;&nbsp;&nbsp;
-            <button onClick={handleUpload} disabled={loading}>
-              Upload
-            </button>
+          <div className="nav">
+            <span onClick={() => setPage(0)}>Images</span>
+            <span onClick={() => setPage(1)}>Tokens</span>
           </div>
 
-          <div className="container">
-            {loadingImages ? <h5>Loading Images....</h5> : (
-              <ul>
-                {images &&
-                  images.length &&
-                  images.map((image) => (
-                    <li key={image.id}>
-                      <img alt={image.id} src={image.url} />
-                      {image.liked ? (
-                        <button onClick={() => handleUnLike(image.id)}>
-                          UnLike
-                        </button>
-                      ) : (
-                        <button onClick={() => handleLike(image.id)}>Like</button>
-                      )}
-                    </li>
-                  ))}
-              </ul>
-            )}
-          </div>
+          <hr />
+
+          {page === 0 ? <Images /> : <Tokens />}
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

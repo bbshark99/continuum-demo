@@ -19,7 +19,7 @@ async function main() {
 
   await favorite.deployed();
 
-  console.log("Greeter deployed to:", favorite.address);
+  console.log("favorite deployed to:", favorite.address);
   console.log(`npx hardhat verify --contract contracts/Favorite.sol:Favorite ${favorite.address} --network rinkeby`);
 }
 

@@ -44,7 +44,7 @@
   padding: 20px;
 }
 
-button, input {
+button, input, select {
   padding: 10px 16px;
 }
 
@@ -59,4 +59,18 @@ li {
 
 li img {
   width: 200px;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+
+  gap: 20px;
+}
+
+.nav span {
+  text-decoration: underline;
+  padding: 18px;
+
+  cursor: pointer;
 }
